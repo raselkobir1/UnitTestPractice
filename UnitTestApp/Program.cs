@@ -2,4 +2,4 @@
 using UnitTestApp;
 
 CourseManagement courseManagement = new CourseManagement();
-await courseManagement.CreateCourse("c#", 8000, new DateTime(2022, 12, 12));
+await courseManagement.CreateCourse("c#", 8000, new DateTime(2022, 09, 10));

@@ -10,16 +10,17 @@ namespace UnitTestApp
     {
         public async Task CreateCourse(string title, double fees, DateTime classStartdate)
         {
-            if (!await IsValidCourseTitleAsync(title))
+            if (! IsValidCourseTitleAsync(title))
             {
                 throw new InvalidOperationException("Course title is Invalid");
             }
             fees = Math.Round(fees);
-            if(classStartdate.Subtract(DateTime.Now).TotalDays < 30)
+            if (classStartdate.Subtract(DateTime.Now).TotalDays < 30)
             {
                 throw new Exception("Class start date should be at least 30 days ahed");
             }
-            Console.WriteLine(classStartdate.Subtract(DateTime.Now).TotalDays);
+            Console.WriteLine("Subtract date : {0}", classStartdate.Subtract(DateTime.Now).TotalDays);
+
 
             Course course = new Course();
             course.Title = title;
@@ -30,7 +31,7 @@ namespace UnitTestApp
             dbContext.Courses.Add(course);
             dbContext.SaveChanges();
         }
-        private async Task<bool> IsValidCourseTitleAsync(string title)
+        private bool IsValidCourseTitleAsync(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
                 return false;
