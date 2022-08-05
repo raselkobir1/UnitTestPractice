@@ -1,3 +1,5 @@
+using Autofac.Extras.Moq;
+using Moq;
 using NUnit.Framework;
 using Shouldly;
 using System;
@@ -8,9 +10,30 @@ namespace UnitTestAppTest
 {
     public class CourseManagementTest
     {
-        [SetUp]
+        private  AutoMock _mock;
+        private  Mock<IDbContext> _dbContextmock;
+        private CourseManagement _courseManagement; 
+
+        [OneTimeSetUp]  //run only one before all test start. 
+        public void OneTimeSetup()
+        {
+            _mock = AutoMock.GetLoose();
+        }
+        [OneTimeTearDown]
+        public void OneTimeTearDown()
+        {
+            _mock?.Dispose();
+        }
+        [SetUp] //run before every test start. 
         public void Setup()
         {
+            _dbContextmock = _mock.Mock<IDbContext>();
+            _courseManagement = _mock.Create<CourseManagement>();   
+        }
+        [TearDown]
+        public void CleanUp()
+        {
+            _dbContextmock?.Reset();
         }
 
         [Test]
@@ -25,10 +48,8 @@ namespace UnitTestAppTest
             DateTime startDate = new DateTime(2022, 09, 25);
 
             //Act
-            CourseManagement courseManagement = new CourseManagement();
-
             await Should.ThrowAsync<InvalidOperationException>(async () =>
-                await courseManagement.CreateCourseAsync(title, fee, startDate));
+                await _courseManagement.CreateCourseAsync(title, fee, startDate));
         }
         [Test]
         public async Task CreateCourse_validCourseValues_CreatesCourse() 
@@ -38,9 +59,15 @@ namespace UnitTestAppTest
             const double fee = 9500;
             DateTime startDate = new DateTime(2022, 10, 10);
 
+            _dbContextmock.Setup(x=> x.AddItem(It.Is<Course>(y => y.Fee == fee && y.Title == title))).Verifiable();
+            _dbContextmock.Setup(x => x.Save()).Verifiable();
+            
             //Action
-            CourseManagement courseManagement = new CourseManagement();
-            await courseManagement.CreateCourseAsync(title, fee, startDate);
+            await _courseManagement.CreateCourseAsync(title, fee, startDate);
+
+            //Assert
+            _dbContextmock.VerifyAll();
+
         }
     }
 }

@@ -8,6 +8,11 @@ namespace UnitTestApp
 {
     public class CourseManagement
     {
+        private readonly IDbContext _dbContext;
+        public CourseManagement(IDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         public async Task CreateCourseAsync(string title, double fees, DateTime classStartdate)
         {
             if (! IsValidCourseTitleAsync(title))
@@ -27,9 +32,8 @@ namespace UnitTestApp
             course.Fee = fees;
             course.ClassStartDate = classStartdate;
 
-            AppDbContext dbContext = new AppDbContext();
-            dbContext.Courses.Add(course);
-            dbContext.SaveChanges();
+            _dbContext.AddItem(course);
+            _dbContext.Save();
         }
         private bool IsValidCourseTitleAsync(string title)
         {
