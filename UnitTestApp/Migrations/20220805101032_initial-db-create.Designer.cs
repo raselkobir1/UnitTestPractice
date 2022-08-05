@@ -12,8 +12,8 @@ using UnitTestApp;
 namespace UnitTestApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220805053525_initial-setup")]
-    partial class initialsetup
+    [Migration("20220805101032_initial-db-create")]
+    partial class initialdbcreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

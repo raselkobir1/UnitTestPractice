@@ -16,8 +16,8 @@ namespace UnitTestApp
 
         public AppDbContext()
         {
-            _connectionString = "Server = DESKTOP-QJ0GMMS\\SQLSERVER; Database = Test; User Id = sa; Password = sa123";
-            _assemblyName = Assembly.GetExecutingAssembly().FullName;
+            _connectionString = "Server = DESKTOP-QJ0GMMS\\SQLSERVER; Database = UnitTest; User Id = sa; Password = sa123";
+            _assemblyName = Assembly.GetExecutingAssembly().FullName?? "";
             Console.WriteLine("Assembly name : {0}", _assemblyName);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder dbContextOptionsBuilder)

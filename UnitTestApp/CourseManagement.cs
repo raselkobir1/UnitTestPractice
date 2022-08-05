@@ -8,7 +8,7 @@ namespace UnitTestApp
 {
     public class CourseManagement
     {
-        public async Task CreateCourse(string title, double fees, DateTime classStartdate)
+        public async Task CreateCourseAsync(string title, double fees, DateTime classStartdate)
         {
             if (! IsValidCourseTitleAsync(title))
             {
