@@ -15,7 +15,7 @@ namespace Calculator.MSTest
          public void AddNumbers_InputTwoInt_GetCorrectAddition()
         {
             //Arrange
-            Summation sum = new();
+            App.Calculator sum = new();
 
             //Act
             int result = sum.AddNumbers(10, 20);
