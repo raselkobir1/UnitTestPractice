@@ -10,5 +10,9 @@
         {
             return x % 2 != 0;  // != return true other wise return false.
         }
+        public double AddNumbersDouble(double a, double b)
+        {
+            return a + b;
+        }
     }
 }
